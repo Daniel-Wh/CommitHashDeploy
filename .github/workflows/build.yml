@@ -5,12 +5,12 @@ on:
     
   push:
     branches:
-      - Develop
-      - Main
+      - develop
+      - main
   pull_request:
     branches:
-      - Develop
-      - Main
+      - develop
+      - main
 
 jobs:
   build:
