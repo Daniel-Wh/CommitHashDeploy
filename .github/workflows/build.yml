@@ -89,6 +89,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: build
+        path: build
     - name: build location
       run: ls
     - name: Configure AWS credentials
