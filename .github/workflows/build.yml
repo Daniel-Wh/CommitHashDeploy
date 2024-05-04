@@ -5,12 +5,12 @@ on:
     
   push:
     branches:
-      - Develop
-      - Main
+      - develop
+      - main
   pull_request:
     branches:
-      - Develop
-      - Main
+      - develop
+      - main
 
 jobs:
   build:
@@ -41,7 +41,6 @@ jobs:
         path: dist
   lint:
     name: Lint
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -61,7 +60,6 @@ jobs:
       run: pnpm lint
 
   test:
-    needs: [build, lint]
     name: Test
     runs-on: ubuntu-latest
 
@@ -80,3 +78,23 @@ jobs:
 
     - name: Test
       run: pnpm test
+    
+  uploadBuild:
+    needs: build
+    name: Upload Build to S3
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: build
+        path: build
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Upload build to S3
+      run: aws s3 cp build s3://${{secrets.AWS_S3_PROJECT_DIRECTORY}}/${{github.sha}}/ --recursive
