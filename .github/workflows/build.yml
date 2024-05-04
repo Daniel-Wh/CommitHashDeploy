@@ -90,8 +90,6 @@ jobs:
       with:
         name: build
         path: build
-    - name: build location
-      run: ls
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
@@ -99,4 +97,4 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
     - name: Upload build to S3
-      run: aws s3 cp build ${{secrets.AWS_S3_PROJECT_DIRECTORY}}/${{github.sha}}/
+      run: aws s3 cp build s3://${{secrets.AWS_S3_PROJECT_DIRECTORY}}/${{github.sha}}/ --recursive
