@@ -41,6 +41,7 @@ jobs:
         path: dist
   lint:
     name: Lint
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -58,3 +59,24 @@ jobs:
 
     - name: Lint
       run: pnpm lint
+
+  test:
+    needs: [build, lint]
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+  
+    - name: Install PNPM
+      run: npm install -g pnpm 
+  
+    - name: Install Dependencies
+      run: pnpm install
+
+    - name: Test
+      run: pnpm test
