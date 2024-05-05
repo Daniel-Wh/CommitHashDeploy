@@ -1,8 +1,8 @@
 name: Lint, Build, and Test
 
 on:
-  workflow_dispatch:
-  pull_request:
+  workflow_dispatch:    
+  push:
     branches:
       - develop
       - main
@@ -75,8 +75,8 @@ jobs:
       run: pnpm test
     
   uploadBuild:
-    needs: build
-    name: Upload Build to S3
+    needs: [build, lint, test]
+    name: Upload build to s3 and set develop
     runs-on: ubuntu-latest
 
     steps:
@@ -91,5 +91,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
+    - name: Clear develop directory
+      run: aws s3 rm s3://${{secrets.AWS_S3_PROJECT_DIRECTORY}}/develop/ --recursive
     - name: Upload build to S3
-      run: aws s3 cp build s3://${{secrets.AWS_S3_PROJECT_DIRECTORY}}/${{github.sha}}/ --recursive
+      run: aws s3 cp build s3://${{secrets.AWS_S3_PROJECT_DIRECTORY}}/develop/ --recursive
