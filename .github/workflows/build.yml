@@ -108,12 +108,6 @@ jobs:
       with:
         node-version: 21.7.3
 
-    - name: Install PNPM & Dependencies
-      run: npm install -g pnpm && pnpm install
-
-    - name: Install Playwright Browsers
-      run: pnpm exec playwright install --with-deps
-
     - name: Set CI Environment Variable
       run: echo "export CI=true" >> $GITHUB_ENV
     # Use your base url
@@ -122,6 +116,13 @@ jobs:
     
     - name: Set Cookie Env Variable
       run: echo "export XSOURCECOOKIE=${{github.sha}}" >> $GITHUB_ENV
+
+    - name: Install PNPM & Dependencies
+      run: npm install -g pnpm && pnpm install
+
+    - name: Install Playwright Browsers
+      run: pnpm exec playwright install --with-deps
+
     - name: Run Playwright tests
       run: pnpm exec playwright test
 

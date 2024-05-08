@@ -5,7 +5,7 @@ test('has title', async ({ page, context }) => {
   console.log('XSOURCECOOKIE:', process.env.XSOURCECOOKIE);
   if (process.env.CI && process.env.XSOURCECOOKIE) {
     const cookie = process.env.XSOURCECOOKIE
-    await context.addCookies([{ name: 'X-source', value: cookie }]);
+    await context.addCookies([{ name: 'X-source', value: cookie, domain: 'devopswithme.net' }]);
   }
   await page.goto('/')
   // Expect a title "to contain" a substring.
