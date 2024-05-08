@@ -24,6 +24,9 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
+        <span>
+          this text is specific to this pr
+        </span>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more

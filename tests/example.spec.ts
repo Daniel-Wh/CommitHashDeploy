@@ -8,5 +8,6 @@ test('has title', async ({ page, context }) => {
   await page.goto('/')
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle("Vite + React + TS");
+  await expect(page.getByText('this text is specific to this pr')).toBeDefined()
 });
 

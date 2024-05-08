@@ -117,8 +117,6 @@ jobs:
 
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps
-    - name: Validate environment
-      run: env
     - name: Run Playwright tests
       run: pnpm exec playwright test
 
