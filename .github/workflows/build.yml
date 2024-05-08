@@ -1,4 +1,4 @@
-name: Lint, Build, and Test
+name: Lint, Build, Unit Test, and Playwright Tests
 
 on:
   workflow_dispatch:
@@ -75,7 +75,7 @@ jobs:
       run: pnpm test
     
   uploadBuild:
-    needs: build
+    needs: [build, lint, test]
     name: Upload Build to S3
     runs-on: ubuntu-latest
 
@@ -93,3 +93,41 @@ jobs:
         aws-region: us-east-1
     - name: Upload build to S3
       run: aws s3 cp build s3://${{secrets.AWS_S3_PROJECT_DIRECTORY}}/${{github.sha}}/ --recursive
+
+  RunPlayWrightTests:
+    needs: uploadBuild
+    name: Run Playwright Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 21.7.3
+
+    - name: Install PNPM & Dependencies
+      run: npm install -g pnpm && pnpm install
+
+    - name: Install Playwright Browsers
+      run: pnpm exec playwright install --with-deps
+
+    - name: Set CI Environment Variable
+      run: echo "export CI=true" >> $GITHUB_ENV
+    # Use your base url
+    - name: Set Base URL
+      run: echo "export BASE_URL=${{secrets.BASE_URL}}" >> $GITHUB_ENV
+    
+    - name: Set Cookie Env Variable
+      run: echo "export XSOURCECOOKIE=${{github.sha}}" >> $GITHUB_ENV
+    - name: Run Playwright tests
+      run: pnpm exec playwright test
+
+    - name: Upload Playwright Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 5
