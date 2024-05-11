@@ -22,6 +22,7 @@ export const handler = (event, context, callback) => {
     const sourceHash = 'X-source';
     // path for develop environment --- This value should be unique for each environment
     const developPath = 'develop';
+    const entryPoint = '/develop/index.html'
 
     var request = event.Records[0].cf.request;
     const headers = request.headers;
@@ -41,13 +42,13 @@ export const handler = (event, context, callback) => {
     // else return base app (spa entry point is index.html)
     if (pointsToFile(oldUri)) {
         if(oldUri.includes('html')) {
-            newUri = '/develop/index.html'
+            newUri = entryPoint
         } else {
             newUri = '/develop/assets' + oldUri
         }
         
-    } else {
-        newUri = oldUri.replace(/\/$/, '\/develop\/index.html');
+    } else { // doesn't point to a file, so set at entry point
+        newUri = entryPoint
     }
 
 
