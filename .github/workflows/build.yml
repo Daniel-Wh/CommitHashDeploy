@@ -1,4 +1,4 @@
-name: Lint, Build, Unit Test, and Playwright Tests
+name: Validate PR
 
 on:
   workflow_dispatch:

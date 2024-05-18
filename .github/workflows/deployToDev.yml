@@ -1,4 +1,4 @@
-name: Lint, Build, Test, Deploy to Develop
+name: Deploy Develop
 
 on:
   workflow_dispatch:    
