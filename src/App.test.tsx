@@ -25,6 +25,12 @@ test('home page counter', async () => {
     expect(screen.getByText(/count is 3/i)).not.toBeNull()
 })
 
+test('should have a card with a link to a LinkedIn post', () => {
+
+    const link = screen.getByText(/LinkedIn Post about this/i)
+    expect(link).not.toBeNull()
+})
+
 test.each(links)('should have a link to %s', (linkText) => {
 
     const link = screen.getByAltText(linkText)
