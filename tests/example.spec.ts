@@ -16,6 +16,6 @@ test('has a card with a link to a LinkedIn post', async ({ page }) => {
   await page.goto('/')
   const link = await page.getByRole('link', { name: /LinkedIn Post about this/i });
   await expect(link).toBeDefined();
-  await expect(link).toHaveAttribute('href', 'https://www.linkedin.com/posts/daniel-wh_github-daniel-whcommithashdeploy-activity-7213178505499475968-JjVs/?utm_source=share&utm_medium=member_desktop');
+  await expect(link).toHaveAttribute('href', 'https://www.linkedin.com/posts/daniel-wh_github-daniel-whcommithashdeploy-activity-7213178505499475968-JjVs?utm_source=share&utm_medium=member_desktop')
 });
 
