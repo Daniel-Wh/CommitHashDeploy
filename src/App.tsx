@@ -18,6 +18,16 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
+        <p>
+          This is an example of a change in code that can be validated in a testing framework in a CI pipeline
+        </p>
+        <small>
+          <a href="https://www.linkedin.com/posts/daniel-wh_github-daniel-whcommithashdeploy-activity-7213178505499475968-JjVs?utm_source=share&utm_medium=member_desktop" target="_blank">
+            LinkedIn Post about this
+          </a>
+        </small>
+      </div>
+      <div className="card">
         <button name='count' onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
